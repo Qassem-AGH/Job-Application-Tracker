@@ -1,4 +1,6 @@
-﻿namespace Job_Application_Tracker
+﻿using System.Collections.Generic;
+
+namespace Job_Application_Tracker
 {
     public class Program
     {
@@ -7,6 +9,7 @@
             // Start the application by showing the main menu
             MainMenu mainMenu = new MainMenu();
             mainMenu.ShowMainMenu();
+
         }
     }
 }
