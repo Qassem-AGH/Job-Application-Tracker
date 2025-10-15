@@ -4,7 +4,9 @@
     {
         static void Main(string[] args)
         {
-            
+            // Start the application by showing the main menu
+            MainMenu mainMenu = new MainMenu();
+            mainMenu.ShowMainMenu();
         }
     }
 }
