@@ -34,7 +34,7 @@ namespace Job_Application_Tracker
                         jobManager.ShowByStatus();
                         break;
                     case "4":
-                        jobManager.ShowUnansweredOlderThan();
+                        jobManager.SortApplicationsByDate();
                         break;
                     case "5":
                         jobManager.ShowStatistics();
