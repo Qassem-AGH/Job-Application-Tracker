@@ -11,6 +11,7 @@ namespace Job_Application_Tracker
         //Menyvalen ska kunna väljas genom att skriva in en siffra (1-8).
         public void ShowMainMenu()
         {
+            // Loop för att visa menyn tills användaren väljer att avsluta
             bool exit = false;
             JobManager jobManager = new JobManager();
             Logo logo = new Logo();
@@ -34,7 +35,7 @@ namespace Job_Application_Tracker
                         jobManager.ShowByStatus();
                         break;
                     case "4":
-                        jobManager.ShowUnansweredOlderThan();
+                        jobManager.SortApplicationsByDate();
                         break;
                     case "5":
                         jobManager.ShowStatistics();

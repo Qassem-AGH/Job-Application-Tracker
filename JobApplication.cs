@@ -29,11 +29,12 @@ namespace Job_Application_Tracker
         }
 
         //GetDaysSinceApplied() – returnerar antal dagar sedan ansökan skickades
+        //Här är en metod för att få antal dagar sedan ansökan skickades
         public int GetDaysSinceApplied()
         {
             return (DateTime.Now - ApplicationDate).Days;
         }
-        //Get
+        //Här är en metod för att få en sammanfattning av ansökan
         public string GetSummary()
         {
             string responseDateStr = ResponseDate.HasValue ? ResponseDate.Value.ToShortDateString() : "N/A";

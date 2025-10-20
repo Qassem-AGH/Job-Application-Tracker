@@ -11,11 +11,14 @@ namespace Job_Application_Tracker
         //Metod för att visa en enkel logotyp med en laddningsanimation
         public void DisplayLogo()
         {
+            //här skapar jag en enkel laddningsanimation med procentandelar från 1% till 100%
             string loadingText = "Welcome to Job Application Tracker";
+            // Get console window dimensions for centering the text
             int windowWidth = Console.WindowWidth;
             int windowHeight = Console.WindowHeight;
             int centerY = windowHeight / 2;
             int padding = (windowWidth - loadingText.Length) / 2;
+
             // Simulate loading animation from 1% to 100%
             for (int i = 1; i <= 100; i++)
             {
@@ -28,11 +31,13 @@ namespace Job_Application_Tracker
                 string percentage = $"Loading... {i}%";
                 CenterText(percentage);
 
+                //här lägger jag till en liten fördröjning för att göra animationen synlig
                 Thread.Sleep(30);
             }
             Console.Clear();
             Console.WriteLine("\n");
 
+            // Logotypen som ska visas när applikationen startar
             string logo = @"  
        _       _                            _ _           _   _               _______             _             
       | |     | |         /\               | (_)         | | (_)             |__   __|           | |            
@@ -59,7 +64,7 @@ namespace Job_Application_Tracker
         public void EndLogo()
         {
             Console.Clear();
-
+            // Logotypen som ska visas när applikationen avslutas
             string goodbyeLogo = @"  
        _       _                            _ _           _   _               _______             _             
       | |     | |         /\               | (_)         | | (_)             |__   __|           | |            

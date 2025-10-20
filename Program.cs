@@ -9,7 +9,6 @@ namespace Job_Application_Tracker
             // Start the application by showing the main menu
             MainMenu mainMenu = new MainMenu();
             mainMenu.ShowMainMenu();
-
         }
     }
 }

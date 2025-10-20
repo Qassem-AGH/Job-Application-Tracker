@@ -26,6 +26,7 @@ namespace Job_Application_Tracker
         //AddJob() – lägger till en ny ansökan
         public void AddJob()
         {
+            //Här använder jag while loop för att kunna lägga till flera ansökningar i rad om användaren vill det
             bool addingJob = true;
             while (addingJob)
             {
@@ -118,7 +119,7 @@ namespace Job_Application_Tracker
                 string responseDateInput = Console.ReadLine();
                 DateTime? responseDate = null;
 
-                //Här validerar vi att användaren anger ett giltigt datum eller lämnar tomt while loop
+                //Här validerar vi att användaren anger ett giltigt datum eller lämnar tomt - while loop
                 while (!string.IsNullOrWhiteSpace(responseDateInput) && !DateTime.TryParse(responseDateInput, out DateTime parsedDate))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -188,6 +189,7 @@ namespace Job_Application_Tracker
         //UpdateStatus() – ändrar status på en befintlig ansökan
         public void UpdateStatus()
         {
+            //Här använder jag while loop för att kunna uppdatera flera ansökningar i rad om användaren vill det
             bool updatingStatus = true;
             while (updatingStatus)
             {
@@ -206,6 +208,7 @@ namespace Job_Application_Tracker
                 Console.WriteLine("List of Job Applications:");
                 Console.ResetColor();
 
+                //Visa alla ansökningar med indexnummer med for loop
                 for (int i = 0; i < Applications.Count; i++)
                 {
                     Console.WriteLine($"{i + 1}. {Applications[i].GetSummary()}");
@@ -228,8 +231,8 @@ namespace Job_Application_Tracker
                 }
                 JobApplication selectedApp = Applications[selectedIndex - 1];
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("You have selected:");
-                Console.WriteLine("-------------------");
+                Console.WriteLine($"You have selected: {selectedInput}");
+                Console.WriteLine("---------------------");
                 Console.ResetColor();
                 Console.WriteLine(selectedApp.GetSummary());
 
@@ -237,6 +240,7 @@ namespace Job_Application_Tracker
                 Console.WriteLine("Enter new status (Applied, Interview, Offer, Rejected):");
                 string newStatusInput = Console.ReadLine();
 
+                //Här validerar vi att användaren anger en giltig status while loop
                 while (!Enum.TryParse(typeof(JobApplication.Status), newStatusInput, out object statusObj))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -303,6 +307,7 @@ namespace Job_Application_Tracker
         //ShowByStatus() – filtrerar med LINQ efter status 
         public void ShowByStatus()
         {
+            //Här använder jag while loop för att kunna filtrera flera gånger om användaren vill det
             bool filteringByStatus = true;
             while (filteringByStatus)
             {
@@ -359,10 +364,11 @@ namespace Job_Application_Tracker
                     Console.ResetColor();
                     continueInput = Console.ReadLine();
                 }
+
+                //Här bestämmer vi om while loopen ska fortsätta eller avslutas
                 if (continueInput.Equals("n", StringComparison.OrdinalIgnoreCase))
                 {
                     filteringByStatus = false;
-                    Console.WriteLine("Returning to main menu...");
                 }
                 else
                 {
@@ -374,6 +380,7 @@ namespace Job_Application_Tracker
         //ShowStatistics() – visar statistik med LINQ (Count, Average, OrderBy, Where) (VG del)
         public void ShowStatistics()
         {
+            //Här visar jag olika statistik om ansökningarna med LINQ
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("=====================================");
@@ -387,7 +394,8 @@ namespace Job_Application_Tracker
             Console.WriteLine($"Total job applications: {totalApplications}");
             Console.WriteLine("-------------------------------------");
 
-            //Antal per status 
+            //Antal per status  
+            //Här grupperar jag ansökningarna efter status och räknar antalet i varje grupp med LINQ
             var statusCounts = Applications
                 .GroupBy(a => a.ApplicationStatus)
                 .Select(g => new { Status = g.Key, Count = g.Count() })
@@ -395,6 +403,7 @@ namespace Job_Application_Tracker
 
             Console.WriteLine("Applications by status:");
 
+            //Här visar jag antalet ansökningar per status 
             foreach (var statusCount in statusCounts)
             {
                 Console.WriteLine($"{statusCount.Status}: {statusCount.Count}");
@@ -403,6 +412,7 @@ namespace Job_Application_Tracker
             Console.WriteLine("-------------------------------------");
 
             //Genomsnittlig svarstid
+            //Här beräknar jag den genomsnittliga svarstiden i dagar för ansökningar som har ett svarsdatu med LINQ
             var averageResponseTime = Applications
                 .Where(a => a.ResponseDate != null)
                 .Average(a => (a.ResponseDate - a.ApplicationDate)?.TotalDays);
@@ -415,7 +425,11 @@ namespace Job_Application_Tracker
             Console.WriteLine("Press Enter to see applications ordered by application date:");
             Console.ResetColor();
             Console.ReadLine();
+
+            //Här sorterar jag ansökningarna efter ansökningsdatum med LINQ
             var orderedApps = Applications.OrderBy(a => a.ApplicationDate).ToList();
+
+            //Visa sorterade ansökningar med GetSummary() metoden från JobApplication klassen
             foreach (var app in orderedApps)
             {
                 Console.WriteLine(app.GetSummary());
@@ -424,8 +438,9 @@ namespace Job_Application_Tracker
         }
 
         //Skapa ett extra filter, t.ex. “Visa ansökningar utan svar äldre än 14 dagar”
-        public void ShowUnansweredOlderThan()
+        public void SortApplicationsByDate()
         {
+            //Här filtrerar jag ansökningar utan svar äldre än ett visst antal dagar
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("==============================================");
@@ -438,6 +453,7 @@ namespace Job_Application_Tracker
             Console.WriteLine("Enter the number of days to filter applications without response:");
             Console.WriteLine("-----------------------------------------------------------------");
 
+            //Validering av användarens inmatning för antal dagar med while loop
             string daysInput = Console.ReadLine();
             int days;
             while (!int.TryParse(daysInput, out days) || days < 0)
@@ -448,9 +464,11 @@ namespace Job_Application_Tracker
                 Console.ResetColor();
                 daysInput = Console.ReadLine();
             }
+            //Här filtrerar jag ansökningarna med LINQ 
             var filteredApps = Applications
                 .Where(a => a.ResponseDate == null && (DateTime.Now - a.ApplicationDate).TotalDays > days)
                 .ToList();
+            //Visa filtrerade ansökningar eller meddelande om inga hittades
             if (filteredApps.Count == 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -462,6 +480,7 @@ namespace Job_Application_Tracker
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine($"Job applications without response older than {days} days:");
                 Console.ResetColor();
+                //Visa filtrerade ansökningar med GetSummary() metoden från JobApplication klassen
                 foreach (var app in filteredApps)
                 {
                     Console.WriteLine(app.GetSummary());
@@ -480,16 +499,18 @@ namespace Job_Application_Tracker
             }
             if (continueInput.Equals("y", StringComparison.OrdinalIgnoreCase))
             {
-                ShowUnansweredOlderThan();
+                SortApplicationsByDate();
             }
         }
 
         //Ta bort en ansökan 
         public void DeleteApplication()
         {
+            //Här använder jag while loop för att kunna ta bort flera ansökningar i rad om användaren vill det
             bool deletingApp = true;
             while (deletingApp)
             {
+                //Här visar jag alla ansökningar och låter användaren välja en att ta bort
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("==========================================");
@@ -504,6 +525,7 @@ namespace Job_Application_Tracker
                 Console.WriteLine("-------------------------");
                 Console.ResetColor();
 
+                //Visa alla ansökningar med indexnummer med for loop
                 for (int i = 0; i < Applications.Count; i++)
                 {
                     Console.WriteLine($"{i + 1}. {Applications[i].GetSummary()}");
@@ -527,8 +549,8 @@ namespace Job_Application_Tracker
                 }
                 JobApplication selectedApp = Applications[selectedIndex - 1];
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("You have selected to delete:");
-                Console.WriteLine("----------------------------");
+                Console.WriteLine($"You have selected to delete: {selectedInput}");
+                Console.WriteLine("--------------------------------");
                 Console.ResetColor();
                 Console.WriteLine(selectedApp.GetSummary());
 
@@ -548,14 +570,14 @@ namespace Job_Application_Tracker
                     Applications.Remove(selectedApp);
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Application deleted successfully.");
-                    Console.WriteLine("-------------------------------");
+                    Console.WriteLine("---------------------------------");
                     Console.ResetColor();
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Deletion cancelled. No changes made.");
-                    Console.WriteLine("-------------------------------------");
+                    Console.WriteLine("------------------------------------");
                     Console.ResetColor();
                 }
                 Console.WriteLine("Do you want to delete another application? (y/n)");
