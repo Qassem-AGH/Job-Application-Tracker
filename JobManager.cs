@@ -420,7 +420,18 @@ namespace Job_Application_Tracker
             //Här visar jag antalet ansökningar per status 
             foreach (var statusCount in statusCounts)
             {
+                // Console.WriteLine($"{statusCount.Status}: {statusCount.Count}");
+                //Här lägger jag till färgkodning för varje status med färgval baserat på statusen
+                Console.ForegroundColor = statusCount.Status switch
+                {
+                    JobApplication.Status.Applied => ConsoleColor.Blue,
+                    JobApplication.Status.Interview => ConsoleColor.Yellow,
+                    JobApplication.Status.Offer => ConsoleColor.Green,
+                    JobApplication.Status.Rejected => ConsoleColor.Red,
+                    _ => ConsoleColor.White
+                };
                 Console.WriteLine($"{statusCount.Status}: {statusCount.Count}");
+                Console.ResetColor();
             }
 
             Console.WriteLine("-------------------------------------");
@@ -436,7 +447,7 @@ namespace Job_Application_Tracker
 
             // Sortera ansökningar efter datum (OrderBy)
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("Press Enter to see applications ordered by application date:");
+            Console.WriteLine("Press Enter to see applications sorted by application date from oldest to newest...");
             Console.ResetColor();
             Console.ReadLine();
 

@@ -37,8 +37,40 @@ namespace Job_Application_Tracker
         //Här är en metod för att få en sammanfattning av ansökan
         public string GetSummary()
         {
+            //string responseDateStr = ResponseDate.HasValue ? ResponseDate.Value.ToShortDateString() : "N/A";
+            //return $"Company: {CompanyName}, Position: {PositionTitle}, Status: {ApplicationStatus}, Applied On: {ApplicationDate.ToShortDateString()}, Response Date: {responseDateStr}, Salary Expectation: {SalaryExpectation} SEK";
+
             string responseDateStr = ResponseDate.HasValue ? ResponseDate.Value.ToShortDateString() : "N/A";
-            return $"Company: {CompanyName}, Position: {PositionTitle}, Status: {ApplicationStatus}, Applied On: {ApplicationDate.ToShortDateString()}, Response Date: {responseDateStr}, Salary Expectation: {SalaryExpectation} SEK";
+
+            // Save current console color
+            ConsoleColor originalColor = Console.ForegroundColor;
+
+            // Set color based on status
+            switch (ApplicationStatus)
+            {
+                case Status.Applied:
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    break;
+                case Status.Interview:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case Status.Offer:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    break;
+                case Status.Rejected:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+            }
+
+            // Print status in color
+            Console.WriteLine($"Status: {ApplicationStatus}");
+
+            // Reset to original color
+            Console.ForegroundColor = originalColor;
+
+            // Return the rest of the summary (without color)
+            return $"Company: {CompanyName}, Position: {PositionTitle}, Applied On: {ApplicationDate.ToShortDateString()}, Response Date: {responseDateStr}, Salary Expectation: {SalaryExpectation} SEK";
+
         }
     }
 }
