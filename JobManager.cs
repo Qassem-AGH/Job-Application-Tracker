@@ -11,7 +11,7 @@ namespace Job_Application_Tracker
         //Här är attributen för klassen JobManager:
         //Applications | List<JobApplication> - Samling av alla ansökningar
         private List<JobApplication> Applications = new List<JobApplication>()
-            {
+        {
             new JobApplication("IKEA", "Software Developer", JobApplication.Status.Applied, new DateTime(2025, 10, 1), null, 45000),
             new JobApplication("Spotify", "Backend Engineer", JobApplication.Status.Interview, new DateTime(2025, 9, 15), new DateTime(2025, 9, 20), 55000),
             new JobApplication("H&M", "Frontend Developer", JobApplication.Status.Offer, new DateTime(2025, 8, 30), new DateTime(2025, 9, 5), 50000),
@@ -191,7 +191,7 @@ namespace Job_Application_Tracker
         {
             //Här använder jag while loop för att kunna uppdatera flera ansökningar i rad om användaren vill det
             bool updatingStatus = true;
-            while (updatingStatus)
+            while (updatingStatus && Applications.Count != 0)
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -277,6 +277,13 @@ namespace Job_Application_Tracker
                     updatingStatus = false;
                 }
             }
+            if (Applications.Count == 0)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("No job applications available to update.");
+                Console.ResetColor();
+            }
         }
 
         //ShowAll() – visar alla ansökningar
@@ -309,7 +316,7 @@ namespace Job_Application_Tracker
         {
             //Här använder jag while loop för att kunna filtrera flera gånger om användaren vill det
             bool filteringByStatus = true;
-            while (filteringByStatus)
+            while (filteringByStatus && Applications.Count != 0)
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -374,6 +381,13 @@ namespace Job_Application_Tracker
                 {
                     filteringByStatus = true;
                 }
+            }
+            if (Applications.Count == 0)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("No job applications available to filter.");
+                Console.ResetColor();
             }
         }
 
@@ -456,7 +470,7 @@ namespace Job_Application_Tracker
             //Validering av användarens inmatning för antal dagar med while loop
             string daysInput = Console.ReadLine();
             int days;
-            while (!int.TryParse(daysInput, out days) || days < 0)
+            while (!int.TryParse(daysInput, out days) || days < 0 && Applications.Count != 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid input. Please enter a positive integer for days:");
@@ -464,7 +478,6 @@ namespace Job_Application_Tracker
                 Console.ResetColor();
                 daysInput = Console.ReadLine();
             }
-            //Här filtrerar jag ansökningarna med LINQ 
             var filteredApps = Applications
                 .Where(a => a.ResponseDate == null && (DateTime.Now - a.ApplicationDate).TotalDays > days)
                 .ToList();
@@ -508,7 +521,7 @@ namespace Job_Application_Tracker
         {
             //Här använder jag while loop för att kunna ta bort flera ansökningar i rad om användaren vill det
             bool deletingApp = true;
-            while (deletingApp)
+            while (deletingApp && Applications.Count != 0)
             {
                 //Här visar jag alla ansökningar och låter användaren välja en att ta bort
                 Console.Clear();
@@ -594,6 +607,13 @@ namespace Job_Application_Tracker
                 {
                     deletingApp = false;
                 }
+            }
+            if (Applications.Count == 0)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("No job applications available to delete.");
+                Console.ResetColor();
             }
         }
     }

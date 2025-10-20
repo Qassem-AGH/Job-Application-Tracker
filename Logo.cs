@@ -49,7 +49,7 @@ namespace Job_Application_Tracker
                                |_|   |_|                                                                        
             ";
 
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
             CenterText(logo);
             Console.ResetColor();
 
